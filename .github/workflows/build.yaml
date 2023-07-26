@@ -1,13 +1,19 @@
-name: fedian
+name: build-fedian
 on:
   pull_request:
-  merge_group:  
+    branches:
+      - main
   schedule:
-    - cron: '0 5 * * *'  # 5 am everyday
-  workflow_dispatch:  
+    - cron: "0 5 * * SUN" # 5 am Sunday
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/README.md"
+  workflow_dispatch:
 env:
-    IMAGE_NAME: config
-    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: fedian
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
   push-ghcr:
@@ -17,10 +23,20 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    steps: 
+    steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
         uses: actions/checkout@v3
+
+      # Build metadata
+      - name: Image Metadata
+        uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: |
+            ${{ env.IMAGE_NAME }}
+          labels: |
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/iantriggs/fedian/main/README.md
 
       - name: Generate tags
         id: generate-tags
