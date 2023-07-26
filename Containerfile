@@ -39,14 +39,14 @@ RUN cat layers | xargs rpm-ostree install -y && \
     ostree container commit && \
     rm layers
 
-# Remove RPM fusion
 
+# Remove RPM fusion
 RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
     ostree container commit
 
-# Latest Distrobox release (remove when the repos update)
-# RUN rpm-ostree install https://dl.fedoraproject.org/pub/fedora/linux/updates/testing/38/Everything/aarch64/Packages/d/distrobox-1.5.0.1-1.fc38.noarch.rpm && \
-#     ostree container commit
+
+# Add cosign public key to image
+COPY cosign.pub /usr/etc/pki/containers/fedian.pub
 
 
 # Install Distrobox
@@ -58,3 +58,4 @@ RUN rpm-ostree install distrobox && \
 RUN systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable rpm-ostree-countme.timer && \
     systemctl enable flatpak-system-update.timer
+
