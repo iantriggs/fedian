@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - "dev/**"
     paths-ignore:
       - "**/README.md"
   workflow_dispatch:
@@ -44,9 +45,12 @@ jobs:
         run: |
           echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
           alias_tags=()
-          # Only perform the follow code when the action is spawned from a Pull Request
+          # Only perform the following code when the action is spawned from a Pull Request
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             alias_tags+=("pr-${{ github.event.number }}")
+          # Build an image for dev branches
+          elif [[ "${{ github.ref_name }}" != "main" ]]; then
+            alias_tags+=(`"${{ github.ref_name }}" | sed 's/\//-/g'`)
           else
             # The following is run when the timer is triggered or a merge/push to main
             echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
