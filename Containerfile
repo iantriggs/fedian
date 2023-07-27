@@ -52,7 +52,7 @@ COPY cosign.pub /usr/etc/pki/containers/fedian.pub
 COPY files/container-policy-additions.json /tmp/
 COPY files/fedian.yaml /usr/etc/containers/registries.d/
 RUN cat /tmp/container-policy-additions.json /usr/etc/containers/policy.json \
-    jq -s '.[0] * .[1]' > /usr/etc/containers/policy.json && \
+    | jq -s '.[0] * .[1]' > /usr/etc/containers/policy.json && \
     rm /tmp/container-policy-additions.json
 
 # Install Distrobox
