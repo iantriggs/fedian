@@ -11,6 +11,8 @@ RUN rm /etc/yum.repos.d/fedora-cisco-openh264.repo && \
 
 COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-udev-rules /
 COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-update-services /
+COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-signing /
+
 
 # Setup RPM fusion
 
@@ -45,9 +47,10 @@ RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
     ostree container commit
 
 
-# Add cosign public key to image, setup the container policy
+# Add cosign public key to image and setup the container policy
 COPY cosign.pub /usr/etc/pki/containers/fedian.pub
-COPY container-policy-additions.json /tmp/
+COPY files/container-policy-additions.json /tmp/
+COPY files/fedian.yaml /usr/etc/containers/registries.d/
 RUN cat /tmp/container-policy-additions.json /usr/etc/containers/policy.json \
     jq -s '.[0] * .[1]' > /usr/etc/containers/policy.json && \
     rm /tmp/container-policy-additions.json

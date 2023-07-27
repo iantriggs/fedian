@@ -1,0 +1,3 @@
+docker:
+  ghcr.io/iantriggs:
+    use-sigstore-attachments: true
