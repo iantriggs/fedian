@@ -35,8 +35,23 @@ rpm-ostree rebase --experimental ostree-image-signed:ghcr.io/iantriggs/fedian
 ```
 
 And reboot again:
+
 ```bash
 systemctl reboot
 ```
 
 You're now on the signed image.
+
+## Rebasing to a dev branch
+
+You can also rebase to a dev branch for testing. Just add the dev branch name as a tag:
+
+```bash
+rpm-ostree rebase --experimental ostree-image-signed:ghcr.io/iantriggs/fedian:dev-signing
+```
+
+And reboot again:
+
+```bash
+systemctl reboot
+```
