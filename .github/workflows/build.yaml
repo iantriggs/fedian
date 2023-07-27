@@ -50,7 +50,7 @@ jobs:
             alias_tags+=("pr-${{ github.event.number }}")
           # Build an image for dev branches
           elif [[ "${{ github.ref_name }}" != "main" ]]; then
-            alias_tags+=(`"${{ github.ref_name }}" | sed 's/\//-/g'`)
+            alias_tags+=(`echo "${{ github.ref_name }}" | sed 's/\//-/g'`)
           else
             # The following is run when the timer is triggered or a merge/push to main
             echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
