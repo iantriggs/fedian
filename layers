@@ -8,3 +8,4 @@ pipewire-codec-aptx
 polkit-gnome
 snapper
 wireguard-tools
+jq

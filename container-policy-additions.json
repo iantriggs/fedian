@@ -1,0 +1,15 @@
+{
+    "transports": {
+        "docker": {
+            "ghcr.io/iantriggs": [
+                {
+                    "type": "sigstoreSigned",
+                    "keyPath": "/usr/etc/pki/containers/fedian.pub",
+                    "signedIdentity": {
+                        "type": "matchRepository"
+                    }
+                }
+            ]
+        }
+    }
+}

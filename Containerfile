@@ -45,9 +45,12 @@ RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
     ostree container commit
 
 
-# Add cosign public key to image
+# Add cosign public key to image, setup the container policy
 COPY cosign.pub /usr/etc/pki/containers/fedian.pub
-
+COPY container-policy-additions.json /tmp/
+RUN cat /tmp/container-policy-additions.json /usr/etc/containers/policy.json \
+    jq -s '.[0] * .[1]' > /usr/etc/containers/policy.json && \
+    rm /tmp/container-policy-additions.json
 
 # Install Distrobox
 RUN rpm-ostree install distrobox && \
