@@ -62,7 +62,7 @@ RUN rpm-ostree install distrobox && \
 
 # Start up some services
 
-RUN systemctl enable rpm-ostreed-automatic.timer && \
-    systemctl enable rpm-ostree-countme.timer && \
-    systemctl enable flatpak-system-update.timer
+# RUN systemctl enable rpm-ostreed-automatic.timer && \
+#     systemctl enable rpm-ostree-countme.timer && \
+#     systemctl enable flatpak-system-update.timer
 
