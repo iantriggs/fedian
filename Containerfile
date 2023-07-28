@@ -2,7 +2,6 @@ FROM quay.io/fedora-ostree-desktops/silverblue:38
 
 # Delete some silly repos
 RUN rm /etc/yum.repos.d/fedora-cisco-openh264.repo && \
-    rm /etc/yum.repos.d/google-chrome.repo && \
     rm /etc/yum.repos.d/rpmfusion-nonfree-nvidia-driver.repo && \
     rm /etc/yum.repos.d/rpmfusion-nonfree-steam.repo
 
@@ -52,8 +51,8 @@ RUN rpm-ostree install distrobox && \
 
 # Install Chrome from the Google repo
 # We will use this until an official Flatpak from Google is available
-COPY files/google-chrome.repo /etc/yum.repos.d/
-RUN rpm-ostree install google-chrome-stable && \
+RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
+    rpm-ostree install google-chrome-stable && \
     ostree container commit 
 
 # Start up some services
