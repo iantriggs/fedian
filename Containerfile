@@ -51,13 +51,21 @@ RUN rpm-ostree install distrobox && \
 
 # Install Chrome from the Google repo
 # We will use this until an official Flatpak from Google is available
-RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
-    sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
-    rpm-ostree install google-chrome-stable && \
-    ostree container commit 
+# RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
+#     sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
+#     rpm-ostree install google-chrome-stable && \
+#     ostree container commit 
+
+# Install VS Code from the repo.  The flatpak is just too much work.
+COPY files/vscode.repo /etc/yum.repos.d/
+RUN rpm-ostree install code && \
+    ostree container commit
+
+# Install Firefox from Flatpak
+RUN flatpak install -y flathub org.mozilla.firefox && \
+    ostree container commit
 
 # Start up some services
-
 # RUN systemctl enable rpm-ostreed-automatic.timer && \
 #     systemctl enable rpm-ostree-countme.timer && \
 #     systemctl enable flatpak-system-update.timer
