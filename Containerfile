@@ -62,7 +62,7 @@ RUN rpm-ostree install code && \
     ostree container commit
 
 # Install Firefox from Flatpak
-RUN flatpak install -y flathub org.mozilla.firefox
+# RUN flatpak install -y flathub org.mozilla.firefox
 
 
 # Start up some services
