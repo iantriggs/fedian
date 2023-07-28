@@ -47,7 +47,7 @@ You're now on the signed image.
 You can also rebase to a dev branch for testing. Just add the dev branch name as a tag:
 
 ```bash
-rpm-ostree rebase --experimental ostree-image-signed:ghcr.io/iantriggs/fedian:dev-signing
+rpm-ostree rebase --experimental ostree-image-signed:docker://ghcr.io/iantriggs/fedian:dev-signing
 ```
 
 And reboot again:

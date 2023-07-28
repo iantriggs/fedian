@@ -9,3 +9,5 @@ polkit-gnome
 snapper
 wireguard-tools
 jq
+zsh
+curl
