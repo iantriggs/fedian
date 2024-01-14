@@ -6,3 +6,6 @@
 - TODO: zsh
 - TODO: uninstall firefox, install from flatpak
 - TODO: ffmpeg
+- TODO: AMD/Framework specific settings: power management, etc
+- TODO: Prompt (new terminal app)
+- TODO: Nordvpn client
