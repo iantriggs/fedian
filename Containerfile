@@ -11,7 +11,7 @@ COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-update-services /
 COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-signing /
 
 # Setup RPM fusion
-RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-38.noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-38.noarch.rpm && \
+RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-39.noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-39.noarch.rpm && \
     ostree container commit
 
 # Remove packages we don't want
