@@ -1,0 +1,7 @@
+- TODO: Allow rebase to dev branches
+- TODO: Chrome
+- TODO: vscode
+- TODO: flatpak repo + auto updates?
+- TODO: Insert keys for rpm-ostree
+- TODO: zsh
+- TODO: uninstall firefox, install from flatpak
