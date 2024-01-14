@@ -10,6 +10,18 @@ COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-udev-rules /
 COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-update-services /
 COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-signing /
 
+# Handle some additional repo files
+COPY files/vscode.repo /etc/yum.repos.d/
+
+
+# Install Chrome from the Google repo
+# We will use this until an official Flatpak from Google is available
+# RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
+#     sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
+#     rpm-ostree install google-chrome-stable && \
+#     ostree container commit
+
+
 # Setup RPM fusion
 RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-39.noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-39.noarch.rpm && \
     ostree container commit
@@ -32,9 +44,18 @@ RUN sed -i -e 's/\s*#.*$//' -e '/^[[:space:]]*$/d' layers && \
     rm layers && \
     ostree container commit
 
-# Remove RPM fusion
-RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
+# Override some packages
+COPY overrides .
+
+# Strip comments and override packages
+RUN sed -i -e 's/\s*#.*$//' -e '/^[[:space:]]*$/d' overrides && \
+    cat overrides | xargs -d ',' -n 2 sh -c 'rpm-ostree override remove $0 --install $1' && \
+    rm overrides && \
     ostree container commit
+
+# Remove RPM fusion
+# RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
+#     ostree container commit
 
 # Add cosign public key to image and setup the container policy
 COPY cosign.pub /usr/etc/pki/containers/fedian.pub
@@ -45,9 +66,6 @@ RUN cat /tmp/container-policy-additions.json /usr/etc/containers/policy.json \
     mv /usr/etc/containers/policy_new.json /usr/etc/containers/policy.json && \
     rm /tmp/container-policy-additions.json
 
-# Install Distrobox
-RUN rpm-ostree install distrobox && \
-    ostree container commit
 
 # Install Chrome from the Google repo
 # We will use this until an official Flatpak from Google is available
@@ -56,14 +74,8 @@ RUN rpm-ostree install distrobox && \
 #     rpm-ostree install google-chrome-stable && \
 #     ostree container commit
 
-# Install VS Code from the repo.  The flatpak is just too much work.
-COPY files/vscode.repo /etc/yum.repos.d/
-RUN rpm-ostree install code && \
-    ostree container commit
-
 # Install Firefox from Flatpak
 # RUN flatpak install -y flathub org.mozilla.firefox
-
 
 # Start up some services
 # RUN systemctl enable rpm-ostreed-automatic.timer && \

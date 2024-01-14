@@ -1,9 +1,6 @@
-intel-media-driver
 langpacks-en
-libva-intel-driver
 libva-utils
 light
-mesa-va-drivers-freeworld
 pipewire-codec-aptx
 polkit-gnome
 snapper
@@ -12,3 +9,15 @@ jq
 zsh
 curl
 gnome-tweaks
+ansible
+#ffmpeg
+#ffmpeg-libs
+gstreamer1-plugin-libav
+gstreamer1-plugins-bad-free-extras
+gstreamer1-plugins-bad-freeworld
+gstreamer1-plugins-ugly
+gstreamer1-vaapi
+mesa-vdpau-drivers-freeworld
+mesa-filesystem
+distrobox
+code
