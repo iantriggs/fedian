@@ -1,4 +1,4 @@
-FROM quay.io/fedora-ostree-desktops/silverblue:38
+FROM quay.io/fedora-ostree-desktops/silverblue:39
 
 # Delete some silly repos
 RUN rm /etc/yum.repos.d/fedora-cisco-openh264.repo && \
