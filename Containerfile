@@ -13,15 +13,6 @@ COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-signing /
 # Handle some additional repo files
 COPY files/vscode.repo /etc/yum.repos.d/
 
-
-# Install Chrome from the Google repo
-# We will use this until an official Flatpak from Google is available
-# RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
-#     sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
-#     rpm-ostree install google-chrome-stable && \
-#     ostree container commit
-
-
 # Setup RPM fusion
 RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-39.noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-39.noarch.rpm && \
     ostree container commit
@@ -57,6 +48,14 @@ RUN sed -i -e 's/\s*#.*$//' -e '/^[[:space:]]*$/d' overrides && \
 # RUN rpm-ostree uninstall rpmfusion-free-release rpmfusion-nonfree-release && \
 #     ostree container commit
 
+
+# Install Chrome from the Google repo
+# We will use this until an official Flatpak from Google is available
+# RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
+#     sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
+#     rpm-ostree install google-chrome-stable && \
+#     ostree container commit
+
 # Add cosign public key to image and setup the container policy
 COPY cosign.pub /usr/etc/pki/containers/fedian.pub
 COPY files/container-policy-additions.json /tmp/
@@ -66,13 +65,6 @@ RUN cat /tmp/container-policy-additions.json /usr/etc/containers/policy.json \
     mv /usr/etc/containers/policy_new.json /usr/etc/containers/policy.json && \
     rm /tmp/container-policy-additions.json
 
-
-# Install Chrome from the Google repo
-# We will use this until an official Flatpak from Google is available
-# RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/google-chrome.repo && \
-#     sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/google-chrome.repo && \
-#     rpm-ostree install google-chrome-stable && \
-#     ostree container commit
 
 # Install Firefox from Flatpak
 # RUN flatpak install -y flathub org.mozilla.firefox

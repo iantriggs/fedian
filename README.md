@@ -31,7 +31,7 @@ systemctl reboot
 You're now booted into the new image. Now you can switch to the signed image:
 
 ```bash
-rpm-ostree rebase --experimental ostree-image-signed:ghcr.io/iantriggs/fedian
+rpm-ostree rebase --experimental ostree-image-signed:docker://ghcr.io/iantriggs/fedian
 ```
 
 And reboot again:

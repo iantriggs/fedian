@@ -5,3 +5,4 @@
 - TODO: Insert keys for rpm-ostree
 - TODO: zsh
 - TODO: uninstall firefox, install from flatpak
+- TODO: ffmpeg
